@@ -1,0 +1,46 @@
+﻿@model IEnumerable<BookmarksApp.Models.Bookmark> /* Type of data passed to this partialview */
+<!--
+    This view is intended to be called via by an action controller in this manner :
+
+    return PartialView(IEnumerable<BookmarksApp.Models.Bookmark Bookmarks);
+
+    A partial view produce html without the use of /Views/Shared/_Layout.cshtml
+
+-->
+@if (Session["GroupByTitle"] != null ? (bool)Session["GroupByTitle"] : true)
+{
+    <div class="BookmarkListLayout">
+        @foreach (var Bookmark in Model) /* Model is the instance passed to this view */
+        {
+            <div class="BookmarkLayout">
+                <a href="@Bookmark.Url" target="_blank" title="Voir le site @Bookmark.Title">
+                    <img class="bookmarkFavicon" src="http://www.google.com/s2/favicons?sz=64&domain=@Bookmark.Url" />
+                </a>
+                <a href="/Bookmarks/Details/@Bookmark.Id" title="Voir les détails de @Bookmark.Title">@Bookmark.Title</a>
+            </div>
+        }
+    </div>
+}
+else
+{
+    var categories = ViewBag.BookmarkCategories;
+    int index = 0;
+    foreach (var category in categories)
+    {
+        index++;
+        <details id="@index">
+            <summary>@category</summary>
+            <div class="BookmarkListLayout">
+                @foreach (var Bookmark in Model.Where(b => b.Category == category)) /* Model is the instance passed to this view */
+                {
+                    <div class="BookmarkLayout">
+                        <a href="@Bookmark.Url" target="_blank" title="Voir le site @Bookmark.Title">
+                            <img class="bookmarkFavicon" src="http://www.google.com/s2/favicons?sz=64&domain=@Bookmark.Url" />
+                        </a>
+                        <a href="/Bookmarks/Details/@Bookmark.Id" title="Voir les détails de @Bookmark.Title">@Bookmark.Title</a>
+                    </div>
+                }
+            </div>
+        </details>
+    }
+}

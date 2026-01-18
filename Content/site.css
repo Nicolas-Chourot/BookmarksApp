@@ -1,0 +1,99 @@
+
+
+form {
+    max-width: 4in;
+    margin: auto;
+
+    label {
+        font-weight: bold;
+    }
+
+    input {
+        margin-bottom: 8px;
+    }
+}
+
+.detailsPanel dl {
+    margin: auto;
+    max-width: 325px;
+    font-size: 1em;
+}
+
+.detailsPanel dt {
+    color: gray;
+}
+
+.detailsPanel dd {
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+fieldset {
+    border: 1px solid #ddd !important;
+    border-radius: 6px !important;
+    padding: 12px !important;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+legend {
+    font-size: 1.0em;
+    font-weight: bold;
+    color: #777;
+    float: none;
+    width: inherit;
+    padding: 0 6px;
+    border-bottom: none;
+    margin-left: 6px;
+    margin-bottom: 0;
+    transform: translate(0,-1px);
+}
+
+label {
+    color: #777;
+}
+
+
+details {
+    /* source : https://nerdy.dev/open-and-close-transitions-for-the-details-element*/
+
+    @media (prefers-reduced-motion: no-preference) {
+        interpolate-size: allow-keywords;
+    }
+
+    &::details-content {
+        opacity: 0;
+        block-size: 0;
+        overflow-y: clip;
+        transition: content-visibility 1s allow-discrete, opacity 0.75s, block-size 0.75s;
+    }
+
+    &[open]::details-content {
+        opacity: 1;
+        block-size: auto;
+    }
+
+    div {
+        margin-left: 6px;
+    }
+}
+
+.details_layout {
+    display: grid;
+    grid-template-columns: 250px 265px;
+    gap: 10px;
+}
+
+summary {
+    background: lightgray;
+    padding-left: 8px;
+    height: 34px;
+    border: 1px solid white;
+    border-radius: 6px;
+    font-weight: bold;
+
+    &::marker {
+        font-size: 20px;
+    }
+}

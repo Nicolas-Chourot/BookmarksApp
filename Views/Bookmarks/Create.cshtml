@@ -1,0 +1,20 @@
+﻿@model BookmarksApp.Models.Bookmark
+@{
+    ViewBag.Action = "Create";
+    Html.RenderPartial("BookmarkForm");
+}
+
+@section Scripts { <!-- Cette section ne doit pas être placée dans une vue partielle -->
+    <script>
+        $(() => {
+            // Nécessaire pour la validation des champs de formulaire
+            initFormValidation();
+            addConflictValidation("/Bookmarks/CheckNameConflict", 'Name' /* field unicity check */, 'submit' /* form submit button Id */);
+            $("#Url").on("change", function () {
+                let favicon = makeFavicon($("#Url").val(), true);
+                $("#favicon").empty();
+                $("#favicon").append(favicon);
+            })
+        })
+    </script>
+}

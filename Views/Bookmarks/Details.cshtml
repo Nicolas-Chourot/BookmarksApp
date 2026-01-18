@@ -1,0 +1,48 @@
+﻿@model BookmarksApp.Models.Bookmark
+
+<div class="detailsPanel">
+    
+    <dl>
+        <dt>
+            Favicon
+        </dt>
+        <dd>
+            <div id="favicon">
+                <div class="big-favicon"></div>
+            </div>
+        </dd>
+        <dt>
+            Titre
+        </dt>
+
+        <dd>
+            @Model.Title
+        </dd>
+
+        <dt>
+            Url
+        </dt>
+
+        <dd>
+            @Model.Url
+        </dd>
+
+        <dt>
+            Catégorie
+        </dt>
+
+        <dd>
+            @Model.Category
+        </dd>
+
+    </dl>
+</div>
+@section Scripts {  <!-- Cette section ne doit pas être placée dans une vue partielle -->
+    <script>
+        $(() => {
+            let favicon = makeFavicon("@Model.Url", true);
+            $("#favicon").empty();
+            $("#favicon").append(favicon);
+        })
+    </script>
+}

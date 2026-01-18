@@ -1,0 +1,48 @@
+﻿@model BookmarksApp.Models.Bookmark
+@{
+    var categories = ViewBag.BookmarkCategories;
+}
+
+<form class="form" action="/Bookmarks/@ViewBag.Action" method="POST">
+
+    @Html.AntiForgeryToken() <!-- Injection de jeton anti contrefaçon de formulaire -->
+    <label>Favicon</label>
+    <div id="favicon">
+        <div class="big-favicon"></div>
+    </div>
+    <label for="Title">Titre</label>
+    <input id="Title"
+           name="Title"
+           class="form-control Alpha"
+           placeholder="Titre"
+           value="@Model.Title"
+           required
+           RequireMessage="Veuillez entrer un titre"
+           InvalidMessage="Le nom comporte un caractère illégal"
+           CustomErrorMessage="Ce tittre est déjà utilisé" />
+
+    <label for="Url" class="form-label">Url </label>
+    <input class="form-control URL"
+           name="Url"
+           id="Url"
+           placeholder="Url"
+           required
+           RequireMessage="Veuillez entrer un Url"
+           InvalidMessage="Url invalide"
+           value="@Model.Url" />
+
+    <label for="Category" class="form-label">Catégorie </label>
+    <input name="Category" class="form-control Alpha" placeholder="Categorie" value="@Model.Category"
+           list="Categories"
+           required
+           RequireMessage="Veuillez entrer une catégorie"
+           InvalidMessage="La catégorie comporte un caractère illégal" />
+    <datalist id="Categories">
+        @foreach (var category in categories)
+        {
+            <option value="@category">@category</option>
+        }
+    </datalist>
+    <input id="submit" type="submit" value="Enregistrer" class="btn btn-primary" style="display:none">
+
+</form>

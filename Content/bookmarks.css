@@ -1,0 +1,51 @@
+.BookmarkListLayout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gap);
+    padding: var(--gap);
+
+    a {
+        text-decoration: none;
+        cursor: pointer;
+        color: black;
+
+        &:hover {
+            background-color: aliceblue;
+        }
+    }
+}
+
+.BookmarkLayout {
+    display: flex;
+    align-items: center;
+    width: 338px;
+    gap: var(--gap);
+    font-size: 1.2em;
+    color: black;
+}
+
+.bookmarkFavicon {
+    height: 32px;
+    float: left;
+    margin-right: 8px
+}
+
+.favicon {
+    text-align: center;
+    background-image: url("../bookmark_logo.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 24px;
+    width: 24px;
+    margin-right: 5px;
+}
+
+.big-favicon {
+    text-align: center;
+    background-image: url("../bookmark_logo.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 48px;
+    width: 48px;
+    margin-right: 5px;
+}

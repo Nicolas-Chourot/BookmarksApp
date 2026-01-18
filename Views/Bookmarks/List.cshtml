@@ -1,0 +1,32 @@
+﻿<!--
+    The content of this view rely on the one produced 
+    by the /Bookmarks/GetBookmarks action that call
+    Views/Bookmarks/GetBookmarks.cshtml partial view
+-->
+
+<div id="BookmarkListPanel">
+    <!-- Periodicaly refreshed by object BookmarkListPanel of class AutoRefreshedPanel -->
+</div>
+
+@section Scripts {
+    <script>
+        $(() => {
+            let BookmarkListPanel = new AutoRefreshedPanel("BookmarkListPanel", "/Bookmarks/GetBookmarks", 5 /* refresh every 5 seconds */);
+            let keywordsOnchangeTimger = null;
+            $("#searchInput").on('keyup', function () {
+                clearTimeout(keywordsOnchangeTimger);
+                /* delay request by 0.5 seconds */
+                keywordsOnchangeTimger = setTimeout(() => {
+                    window.location = "/Bookmarks/SetSearchString?value=" + $("#searchInput").val();
+                }, 500 /* 0.5 seconds */);
+            });
+            $("#searchInput").on('search', function () { /* click on clear */
+                clearTimeout(keywordsOnchangeTimger);
+                window.location = "/Bookmarks/SetSearchString?value=" + $("#searchInput").val();
+            });
+            $("#category").on('change', function () { /* click on clear */
+                window.location = "/Bookmarks/SetSearchCategory?value=" + $("#category").val();
+            });
+        })
+    </script>
+}
