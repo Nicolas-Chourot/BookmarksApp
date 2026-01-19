@@ -1,5 +1,5 @@
 ﻿<!--
-    The content of this view rely on the one produced 
+    The content of this view rely on the one produced
     by the /Bookmarks/GetBookmarks action that call
     Views/Bookmarks/GetBookmarks.cshtml partial view
 -->
@@ -28,13 +28,26 @@
             $("#category").on('change', function () { /* click on clear */
                 window.location = "/Bookmarks/SetSearchCategory?value=" + $("#category").val();
             });
-           
+
+            $("#uncollapse-all").click(function () {
+                if ($(this).hasClass("fa-square-caret-right")) {
+                    $(this).removeClass("fa-square-caret-right");
+                    $(this).addClass("fa-square-caret-down");
+                    $('details').prop('open', true);
+                } else {
+                    $(this).addClass("fa-square-caret-right");
+                    $(this).removeClass("fa-square-caret-down");
+                    $('details').removeAttr('open');
+                }
+            })
         })
 
         function saveDetailsState(id) {
             let details = $("#" + id);
-            let open = details[0].open;
-            localStorage.setItem(id, open);
+            if (details[0] != undefined) {
+                let open = details[0].open;
+                localStorage.setItem(id, open);
+            }
         }
 
         function RestoreDetailsState() {
@@ -55,13 +68,13 @@
                 }
             })
             for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i); 
+                const key = localStorage.key(i);
                 if (key.indexOf("details") > -1) {
                     let details = $("#" + key);
                     if (details[0].open != undefined)
-                    details[0].open = localStorage.getItem(key) == "true";
+                        details[0].open = localStorage.getItem(key) == "true";
                     let i = 0;
-                }              
+                }
             }
         }
 
