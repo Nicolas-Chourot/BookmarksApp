@@ -21,7 +21,8 @@ namespace BookmarksApp.Controllers
             if (Session["Search"] == null) Session["Search"] = false;
             if (Session["SearchString"] == null) Session["SearchString"] = "";
             if (Session["SearchCategory"] == null) Session["SearchCategory"] = "*";
-            if (Session["GroupByTitle"] == null) Session["GroupByTitle"] = true;
+            if (Session["GroupByTitles"] == null) Session["GroupByTitles"] = true;
+            if (Session["SortAscending"] == null) Session["SortAscending"] = true;
         }
         private void ResetCurrentBookmarkInfo()
         {
@@ -34,6 +35,7 @@ namespace BookmarksApp.Controllers
         public ActionResult GetBookmarks(bool forceRefresh = false)
         {
             ViewBag.BookmarkCategories = DB.BookmarkCategories();
+
             IEnumerable<Bookmark> result = null;
             if (forceRefresh || DB.Bookmarks.HasChanged)
             {
@@ -41,18 +43,31 @@ namespace BookmarksApp.Controllers
                 // DB.Bookmarks.HasChanged is true when a change has been applied on any Bookmark
 
                 InitSessionVariables();
-                bool search = (bool)Session["Search"];
                 string searchString = (string)Session["SearchString"];
                 string searchCategory = (string)Session["SearchCategory"];
 
-                if (search)
+                if ((bool)Session["Search"] && (bool)Session["GroupByTitles"])
                 {
-                    result = DB.Bookmarks.ToList().Where(c => c.Title.ToLower().Contains(searchString)).OrderBy(c => c.Title);
+                    if ((bool)Session["SortAscending"])
+                        result = DB.Bookmarks.ToList().Where(c => c.Title.ToLower().Contains(searchString)).OrderBy(c => c.Title);
+                    else
+                        result = DB.Bookmarks.ToList().Where(c => c.Title.ToLower().Contains(searchString)).OrderByDescending(c => c.Title);
+
                     if (searchCategory != "*")
                         result = result.Where(c => c.Category.ToLower() == searchCategory.ToLower());
                 }
                 else
-                    result = DB.Bookmarks.ToList().OrderBy(c => c.Title);
+                {
+                    if ((bool)Session["GroupByTitles"])
+                    {
+                        if ((bool)Session["SortAscending"])
+                            result = DB.Bookmarks.ToList().OrderBy(c => c.Title);
+                        else
+                            result = DB.Bookmarks.ToList().OrderByDescending(c => c.Title);
+                    }
+                    else
+                        result = DB.Bookmarks.ToList().OrderBy(c => c.Title);
+                }
                 return PartialView(result);
             }
             return null;
@@ -65,15 +80,21 @@ namespace BookmarksApp.Controllers
             return View();
         }
 
+        public ActionResult ToggleSort()
+        {
+            Session["SortAscending"] = !(bool)Session["SortAscending"];
+            return RedirectToAction("List");
+        }
+
         public ActionResult GroupByTitles()
         {
-            Session["GroupByTitle"] = true;
+            Session["GroupByTitles"] = true;
             return RedirectToAction("List");
         }
 
         public ActionResult GroupByCategories()
         {
-            Session["GroupByTitle"] = false;
+            Session["GroupByTitles"] = false;
             return RedirectToAction("List");
         }
 

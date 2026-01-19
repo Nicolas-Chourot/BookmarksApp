@@ -6,8 +6,8 @@
     string searchCategory = Session["SearchCategory"] != null ? (string)Session["SearchCategory"] : "";
     int currentBookmarkId = Session["CurrentBookmarkId"] != null ? (int)Session["CurrentBookmarkId"] : 0;
     string CurrentBookmarkTitle = Session["CurrentBookmarkTitle"] != null ? (string)Session["CurrentBookmarkTitle"] : "";
-    bool GroupByTitle = Session["GroupByTitle"] != null ? (bool)Session["GroupByTitle"] : true;
-
+    bool GroupByTitles = Session["GroupByTitles"] != null ? (bool)Session["GroupByTitles"] : true;
+    bool SearchAscending = Session["SortAscending"] != null ? (bool)Session["SortAscending"] : true;
 }
 
 <div class="section roundedBorder">
@@ -21,7 +21,7 @@
                 string uncheckIcon = "<i class='menuIcon fa fa-fw mx-2'></i>";
                 string byTitles;
                 string byCategories;
-                if (GroupByTitle)
+                if (GroupByTitles)
                 {
                     byTitles = checkIcon;
                     byCategories = uncheckIcon;
@@ -35,7 +35,19 @@
                 <div class="pageTitle">Bookmarks</div>
                 <div id="mainMenuPanel" class="menu">
                     <a href="/@controller/Create" class="cmdIcon fa fa-circle-plus" title="Ajouter..."></a>
-                    <a href="/@controller/ToggleSearch" id="cmdToggleSearch" class="cmdIcon fa fa-search" title="Recherche..."></a>
+                    @if (GroupByTitles)
+                    {
+                        if (SearchAscending)
+                        {
+                            <a href="/@controller/ToggleSort" id="cmdToggleSearch" class="cmdIcon fa fa-arrow-down-short-wide" title="Tri ascendant..."></a>
+                        }
+                        else
+                        {
+                            <a href="/@controller/ToggleSort" id="cmdToggleSearch" class="cmdIcon fa fa-arrow-up-wide-short" title="Tri descendant..."></a>
+                        }
+
+                        <a href="/@controller/ToggleSearch" id="cmdToggleSearch" class="cmdIcon fa fa-search" title="Recherche..."></a>
+                    }
                     <!-- Dropdown menu -->
                     <div id="menu" class="dropdown ms-auto">
                         <!-- Menu acces icon -->
@@ -117,7 +129,7 @@
     </div>
 </div>
 <div class="searchBarLayout">
-    @if (action == "list" && search)
+    @if (action == "list" && search && GroupByTitles)
     {
         <input type="search" id="searchInput" class="section roundedBorder" value="@searchString" placeholder="Recherche...">
 

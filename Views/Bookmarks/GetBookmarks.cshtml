@@ -7,7 +7,7 @@
     A partial view produce html without the use of /Views/Shared/_Layout.cshtml
 
 -->
-@if (Session["GroupByTitle"] != null ? (bool)Session["GroupByTitle"] : true)
+@if (Session["GroupByTitles"] != null ? (bool)Session["GroupByTitles"] : true)
 {
     <div class="BookmarkListLayout">
         @foreach (var Bookmark in Model) /* Model is the instance passed to this view */
@@ -28,7 +28,8 @@ else
     foreach (var category in categories)
     {
         index++;
-        <details id="@index">
+        <details id="details_@index" ontoggle="saveDetailsState('details_@index')">
+            <!--onclick="saveDetailsState('details_@index')"-->
             <summary>@category</summary>
             <div class="BookmarkListLayout">
                 @foreach (var Bookmark in Model.Where(b => b.Category == category)) /* Model is the instance passed to this view */

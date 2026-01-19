@@ -11,7 +11,8 @@
 @section Scripts {
     <script>
         $(() => {
-            let BookmarkListPanel = new AutoRefreshedPanel("BookmarkListPanel", "/Bookmarks/GetBookmarks", 5 /* refresh every 5 seconds */);
+            console.log('allo')
+            let BookmarkListPanel = new AutoRefreshedPanel("BookmarkListPanel", "/Bookmarks/GetBookmarks", 5 /* refresh every 5 seconds */, RestoreDetailsState);
             let keywordsOnchangeTimger = null;
             $("#searchInput").on('keyup', function () {
                 clearTimeout(keywordsOnchangeTimger);
@@ -27,6 +28,42 @@
             $("#category").on('change', function () { /* click on clear */
                 window.location = "/Bookmarks/SetSearchCategory?value=" + $("#category").val();
             });
+           
         })
+
+        function saveDetailsState(id) {
+            let details = $("#" + id);
+            let open = details[0].open;
+            localStorage.setItem(id, open);
+        }
+
+        function RestoreDetailsState() {
+            $("details").on('toggle', function () {
+                saveDetailsState($(this).id);
+            })
+            // Toggle collapse uncollapse details
+            $('summary').on('click', function (e) {
+                if (e.ctrlKey) {
+                    if ($(this).parent().attr('open') != undefined) {
+                        $('details').removeAttr('open');
+                        e.preventDefault();
+                    }
+                    else {
+                        $('details').prop('open', true);
+                        e.preventDefault();
+                    }
+                }
+            })
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i); 
+                if (key.indexOf("details") > -1) {
+                    let details = $("#" + key);
+                    if (details[0].open != undefined)
+                    details[0].open = localStorage.getItem(key) == "true";
+                    let i = 0;
+                }              
+            }
+        }
+
     </script>
 }
