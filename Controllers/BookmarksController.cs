@@ -9,6 +9,8 @@ namespace BookmarksApp.Controllers
 {
     public class BookmarksController : Controller
     {
+        // A controller exist within the process of a request
+        // After the response is provided its instance is deleted
 
         private void InitSessionVariables()
         {
@@ -79,44 +81,6 @@ namespace BookmarksApp.Controllers
             ResetCurrentBookmarkInfo();
             return View();
         }
-
-        public ActionResult ToggleSort()
-        {
-            Session["SortAscending"] = !(bool)Session["SortAscending"];
-            return RedirectToAction("List");
-        }
-
-        public ActionResult GroupByTitles()
-        {
-            Session["GroupByTitles"] = true;
-            return RedirectToAction("List");
-        }
-
-        public ActionResult GroupByCategories()
-        {
-            Session["GroupByTitles"] = false;
-            return RedirectToAction("List");
-        }
-
-        public ActionResult ToggleSearch()
-        {
-            if (Session["Search"] == null) Session["Search"] = false;
-            Session["Search"] = !(bool)Session["Search"];
-            return RedirectToAction("List");
-        }
-
-        public ActionResult SetSearchString(string value)
-        {
-            Session["SearchString"] = value.ToLower();
-            return RedirectToAction("List");
-        }
-
-        public ActionResult SetSearchCategory(string value)
-        {
-            Session["SearchCategory"] = value.ToLower();
-            return RedirectToAction("List");
-        }
-
         public ActionResult About()
         {
             return View();
@@ -124,6 +88,8 @@ namespace BookmarksApp.Controllers
 
         public ActionResult Details(int id)
         {
+            // Keep in Session the current id wich will be referred in
+            // Edit and Delete action
             Session["CurrentBookmarkId"] = id;
             Bookmark Bookmark = DB.Bookmarks.Get(id);
             if (Bookmark != null)
@@ -187,17 +153,8 @@ namespace BookmarksApp.Controllers
             }
             return RedirectToAction("Details/" + id);
         }
-        public ActionResult Delete()
-        {
-            int id = Session["CurrentBookmarkId"] != null ? (int)Session["CurrentBookmarkId"] : 0;
-            if (id != 0)
-            {
-                DB.Bookmarks.Delete(id);
-            }
-            return RedirectToAction("List");
-        }
 
-        // This action is meant to be called by an AJAX request
+        // This action is ment to be called by an AJAX request
         // Return true if there is a name conflict
         // Look into validation.js for more details
         // and also into Views/Bookmarks/BookmarkForm.cshtml
@@ -209,5 +166,51 @@ namespace BookmarksApp.Controllers
                         JsonRequestBehavior.AllowGet /* must have for CORS verification by client browser */);
         }
 
+        public ActionResult Delete()
+        {
+            int id = Session["CurrentBookmarkId"] != null ? (int)Session["CurrentBookmarkId"] : 0;
+            if (id != 0)
+            {
+                DB.Bookmarks.Delete(id);
+            }
+            return RedirectToAction("List");
+        }
+        
+        public ActionResult ToggleSort()
+        {
+            Session["SortAscending"] = !(bool)Session["SortAscending"];
+            return RedirectToAction("List");
+        }
+
+        public ActionResult GroupByTitles()
+        {
+            Session["GroupByTitles"] = true;
+            return RedirectToAction("List");
+        }
+
+        public ActionResult GroupByCategories()
+        {
+            Session["GroupByTitles"] = false;
+            return RedirectToAction("List");
+        }
+
+        public ActionResult ToggleSearch()
+        {
+            if (Session["Search"] == null) Session["Search"] = false;
+            Session["Search"] = !(bool)Session["Search"];
+            return RedirectToAction("List");
+        }
+
+        public ActionResult SetSearchString(string value)
+        {
+            Session["SearchString"] = value.ToLower();
+            return RedirectToAction("List");
+        }
+
+        public ActionResult SetSearchCategory(string value)
+        {
+            Session["SearchCategory"] = value.ToLower();
+            return RedirectToAction("List");
+        }
     }
 }

@@ -6,14 +6,18 @@
 <form class="form" action="/Bookmarks/@ViewBag.Action" method="POST">
 
     @Html.AntiForgeryToken() <!-- Injection de jeton anti contrefaçon de formulaire -->
+    <!-- Favicon -->
     <label>Favicon</label>
     <div id="favicon">
         <div class="big-favicon"></div>
     </div>
+
+    <!-- Title -->
     <label for="Title">Titre</label>
-    <input id="Title"
-           name="Title"
+    <input type="text"
            class="form-control Alpha"
+           name="Title"
+           id="Title"
            placeholder="Titre"
            value="@Model.Title"
            required
@@ -21,19 +25,26 @@
            InvalidMessage="Le nom comporte un caractère illégal"
            CustomErrorMessage="Ce tittre est déjà utilisé" />
 
+    <!-- Url -->
     <label for="Url" class="form-label">Url </label>
-    <input class="form-control URL"
+    <input type="text"
+           class="form-control URL"
            name="Url"
            id="Url"
            placeholder="Url"
+           value="@Model.Url"
            required
            RequireMessage="Veuillez entrer un Url"
-           InvalidMessage="Url invalide"
-           value="@Model.Url" />
+           InvalidMessage="Url invalide" />
 
+    <!-- Category -->
     <label for="Category" class="form-label">Catégorie </label>
-    <input name="Category" class="form-control Alpha" placeholder="Categorie" value="@Model.Category"
+    <input type="text"
            list="Categories"
+           class="form-control Alpha"
+           name="Category"
+           id="Catgory" placeholder="Categorie"
+           value="@Model.Category"
            required
            RequireMessage="Veuillez entrer une catégorie"
            InvalidMessage="La catégorie comporte un caractère illégal" />
@@ -43,6 +54,12 @@
             <option value="@category">@category</option>
         }
     </datalist>
-    <input id="submit" type="submit" value="Enregistrer" class="btn btn-primary" style="display:none">
+
+    <!-- Form submit button -->
+    <input id="submit"
+           type="submit"
+           value="Enregistrer"
+           class="btn btn-primary"
+           style="display:none">
 
 </form>

@@ -9,6 +9,7 @@
 -->
 @if (Session["GroupByTitles"] != null ? (bool)Session["GroupByTitles"] : true)
 {
+    <!-- List of bookmarks -->
     <div class="BookmarkListLayout">
         @foreach (var Bookmark in Model) /* Model is the instance passed to this view */
         {
@@ -23,16 +24,16 @@
 }
 else
 {
+    <!-- List of bookmarks groupes by categories -->
     var categories = ViewBag.BookmarkCategories;
     int index = 0;
     foreach (var category in categories)
     {
         index++;
-        <details id="details_@index" ontoggle="saveDetailsState('details_@index')">
-            <!--onclick="saveDetailsState('details_@index')"-->
+        <details id="details_@index">
             <summary>@category</summary>
             <div class="BookmarkListLayout">
-                @foreach (var Bookmark in Model.Where(b => b.Category == category)) /* Model is the instance passed to this view */
+                @foreach (var Bookmark in Model.Where(b => b.Category == category))
                 {
                     <div class="BookmarkLayout">
                         <a href="@Bookmark.Url" target="_blank" title="Voir le site @Bookmark.Title">

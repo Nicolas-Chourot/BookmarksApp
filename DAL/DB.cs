@@ -13,8 +13,10 @@ namespace DAL
         public static DB Instance { get { return instance; } }
         #endregion
 
+        // Object Retionnal Mapper of Bookmarks.json file
         public static Repository<Bookmark> Bookmarks { get; set; } = new Repository<Bookmark>();
 
+        // Produce a ordered list of categories without duplicate
         public static List<string> BookmarkCategories()
         {
             List<string> Categories = new List<string>();

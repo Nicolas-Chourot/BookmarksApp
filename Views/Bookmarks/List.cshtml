@@ -5,26 +5,37 @@
 -->
 
 <div id="BookmarkListPanel">
-    <!-- Periodicaly refreshed by object BookmarkListPanel of class AutoRefreshedPanel -->
+    <!-- Periodicaly refreshed by instance BookmarkListPanel of class AutoRefreshedPanel -->
 </div>
 
 @section Scripts {
     <script>
         $(() => {
-            console.log('allo')
-            let BookmarkListPanel = new AutoRefreshedPanel("BookmarkListPanel", "/Bookmarks/GetBookmarks", 5 /* refresh every 5 seconds */, RestoreDetailsState);
+
+            let BookmarkListPanel =
+                new AutoRefreshedPanel(
+                    "BookmarkListPanel", /* Id of target DOM element */
+                    "/Bookmarks/GetBookmarks", /* Url of action to call */
+                    5 /* refresh every 5 seconds */,
+                    RestoreDetailsState /* post refresh callback  */
+                );
+
             let keywordsOnchangeTimger = null;
+
             $("#searchInput").on('keyup', function () {
                 clearTimeout(keywordsOnchangeTimger);
-                /* delay request by 0.5 seconds */
+                /* delay request by 0.5 seconds because we dont want to send a request each time there is a keyup event */
                 keywordsOnchangeTimger = setTimeout(() => {
+                    // command to send a get request by the browser
                     window.location = "/Bookmarks/SetSearchString?value=" + $("#searchInput").val();
                 }, 500 /* 0.5 seconds */);
             });
+
             $("#searchInput").on('search', function () { /* click on clear */
                 clearTimeout(keywordsOnchangeTimger);
                 window.location = "/Bookmarks/SetSearchString?value=" + $("#searchInput").val();
             });
+
             $("#category").on('change', function () { /* click on clear */
                 window.location = "/Bookmarks/SetSearchCategory?value=" + $("#category").val();
             });
@@ -44,19 +55,18 @@
             })
         })
 
-        function saveDetailsState(id) {
-            let details = $("#" + id);
-            if (details[0] != undefined) {
-                let open = details[0].open;
-                localStorage.setItem(id, open);
-            }
-        }
-
         function RestoreDetailsState() {
+            //////////////////////////////////////////////////////////
+            /// Install event handler
+            //////////////////////////////////////////////////////////
+            /// Save details state
             $("details").on('toggle', function () {
-                saveDetailsState($(this).id);
+                let details_dom = $(this)[0];
+                if (details_dom != undefined) {
+                    localStorage.setItem(details_dom.id, details_dom.open);
+                }
             })
-            // Toggle collapse uncollapse details
+            /// Toggle collapse uncollapse details
             $('summary').on('click', function (e) {
                 if (e.ctrlKey) {
                     if ($(this).parent().attr('open') != undefined) {
@@ -69,6 +79,8 @@
                     }
                 }
             })
+            //////////////////////////////////////////////////////////
+
             // Restore uncollapse command icon state
             if (localStorage.getItem('Collapsed') == "true") {
                 $("#toggle-collapse").addClass("fa-square-caret-right");
@@ -81,10 +93,12 @@
             // Restore state of each details tags
             for (let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i);
+                // target only keys that contain "details" string
                 if (key.indexOf("details") > -1) {
-                    let details = $("#" + key);
-                    if (details[0].open != undefined)
-                        details[0].open = localStorage.getItem(key) == "true";
+                    let details_dom = $("#" + key)[0];
+                    if (details_dom != undefined)
+                        // all values in localstorage are stored as string
+                        details_dom.open = localStorage.getItem(key) == "true";
                     let i = 0;
                 }
             }
