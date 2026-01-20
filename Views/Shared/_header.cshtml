@@ -1,6 +1,9 @@
 ﻿@{
+    // Extract request controller/action
     string controller = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString().ToLower();
     string action = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString().ToLower();
+
+    // Extract users session settings 
     bool search = Session["Search"] != null ? (bool)Session["Search"] : false;
     string searchString = Session["SearchString"] != null ? (string)Session["SearchString"] : "";
     string searchCategory = Session["SearchCategory"] != null ? (string)Session["SearchCategory"] : "";
@@ -13,7 +16,8 @@
 <div class="section roundedBorder">
     <div class="headerMenu">
         <a class="siteIcon" href="/Bookmarks/list"></a>
-        <!-- Direct action context command icons -->
+
+        <!-- Contextual menu -->
         @switch (action)
         {
             case "list":
@@ -32,9 +36,13 @@
                     byCategories = checkIcon;
                 }
 
-                <div class="pageTitle">Bookmarks</div>
+                <div class="pageTitle">Favoris</div>
+
                 <div id="mainMenuPanel" class="menu">
+                    <!-- Create command -->
                     <a href="/@controller/Create" class="cmdIcon fa fa-circle-plus" title="Ajouter..."></a>
+
+                    <!-- Sort command -->
                     @if (GroupByTitles)
                     {
                         if (SearchAscending)
@@ -45,18 +53,23 @@
                         {
                             <a href="/@controller/ToggleSort" id="cmdToggleSearch" class="cmdIcon fa fa-arrow-up-wide-short" title="Tri descendant..."></a>
                         }
+
+                        <!-- Search command -->
                         <a href="/@controller/ToggleSearch" id="cmdToggleSearch" class="cmdIcon fa fa-search" title="Recherche..."></a>
                     }
                     else
                     {
-                        <i id="uncollapse-all" class="cmdIcon fa-regular fa-square-caret-right"></i>
+                        <!-- Collapse/uncollapse all command -->
+                        <i id="toggle-collapse" class="cmdIcon fa-regular fa-square-caret-right" title="Étendre/Réduire les catégories"></i>
                     }
                     <!-- Dropdown menu -->
                     <div id="menu" class="dropdown ms-auto">
+
                         <!-- Menu acces icon -->
                         <div data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="cmdIcon fa fa-bars" title="Menu"></i>
                         </div>
+
                         <!-- Menu items -->
                         <div class="dropdown-menu noselect" id="DDMenu">
                             <div class="dropdown-item item-layout">
@@ -76,7 +89,7 @@
                             <div class="dropdown-divider"></div>
 
                             <div class="dropdown-item item-layout">
-                                @Html.Raw(byTitles)
+                                @Html.Raw(byTitles) <!--  Html helper for rendering html tags -->
                                 <a href="/@controller/GroupByTitles">
                                     Lister par titres
                                 </a>
@@ -98,32 +111,48 @@
                 break;
             case "details":
                 <div class="pageTitle">Détails</div>
+
                 <div id="mainMenuPanel" class="menu">
+                    <!-- Edit command -->
                     <a href="/@controller/Edit" class="cmdIcon fa fa-pen-to-square" title="Modifier..."></a>
+
+                    <!-- Delete command with confirmation -->
                     <i class="cmdIcon fa fa-trash-can"
                        title="Effacer"
                        onclick="bootbox.confirm('<b style=color:red>Effacer le Bookmark : </b><h3>@CurrentBookmarkTitle?</h3>', function(result){ if (result) window.location = '/@controller/Delete'; })">
                     </i>
+
+                    <!-- Back to list command -->
                     <a href="/@controller/List" class="cmdIcon fa fa-square-xmark" title="retour"></a>
                 </div>
                 break;
             case "create":
                 <div class="pageTitle">Ajout</div>
+
                 <div id="mainMenuPanel" class="menu">
+                    <!-- Commit command -->
                     <i class="cmdIcon submitCmd fa fa-circle-check" title="Soumettre" onclick="document.getElementById('submit').click()"></i>
+
+                    <!-- Abort and back to list command -->
                     <a href="/@controller/List" class="cmdIcon fa fa-square-xmark" title="Annuler"></a>
                 </div>
                 break;
             case "edit":
                 <div class="pageTitle">Modification</div>
+
                 <div id="mainMenuPanel" class="menu">
+                    <!-- Commit command -->
                     <i class="cmdIcon submitCmd fa fa-circle-check" title="Soumettre" onclick="document.getElementById('submit').click()"></i>
+
+                    <!-- Abort and back to list command -->
                     <a href="/@controller/Details/@currentBookmarkId" class="cmdIcon fa fa-square-xmark" title="Annuler"></a>
                 </div>
                 break;
             case "about":
                 <div class="pageTitle">À propos</div>
+
                 <div id="mainMenuPanel" class="menu">
+                    <!-- Back to list command -->
                     <a href="/@controller/List" class="cmdIcon fa fa-square-xmark" title="Retour"></a>
                 </div>
                 break;
@@ -131,12 +160,16 @@
 
     </div>
 </div>
+<!-- Additionnal section -->
 <div class="searchBarLayout">
     @if (action == "list" && search && GroupByTitles)
     {
+        <!-- Search input control -->
         <input type="search" id="searchInput" class="section roundedBorder" value="@searchString" placeholder="Recherche...">
 
         var BookmarkCategories = ViewBag.BookmarkCategories;
+
+        <!-- Category selection control -->
         if (BookmarkCategories != null)
         {
             <select name="Category" id="category" class="form-control">

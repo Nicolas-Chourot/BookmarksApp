@@ -29,15 +29,17 @@
                 window.location = "/Bookmarks/SetSearchCategory?value=" + $("#category").val();
             });
 
-            $("#uncollapse-all").click(function () {
+            $("#toggle-collapse").click(function () {
                 if ($(this).hasClass("fa-square-caret-right")) {
                     $(this).removeClass("fa-square-caret-right");
                     $(this).addClass("fa-square-caret-down");
                     $('details').prop('open', true);
+                    localStorage.setItem('Collapsed', 'false');
                 } else {
                     $(this).addClass("fa-square-caret-right");
                     $(this).removeClass("fa-square-caret-down");
                     $('details').removeAttr('open');
+                    localStorage.setItem('Collapsed', 'true');
                 }
             })
         })
@@ -67,6 +69,16 @@
                     }
                 }
             })
+            // Restore uncollapse command icon state
+            if (localStorage.getItem('Collapsed') == "true") {
+                $("#toggle-collapse").addClass("fa-square-caret-right");
+                $("#toggle-collapse").removeClass("fa-square-caret-down");
+            } else {
+                $("#toggle-collapse").removeClass("fa-square-caret-right");
+                $("#toggle-collapse").addClass("fa-square-caret-down");
+            }
+
+            // Restore state of each details tags
             for (let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i);
                 if (key.indexOf("details") > -1) {

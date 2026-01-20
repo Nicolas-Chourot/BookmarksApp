@@ -9,7 +9,15 @@
         $(() => {
             // Nécessaire pour la validation des champs de formulaire
             initFormValidation();
-            addConflictValidation("/Bookmarks/CheckNameConflict", 'Name' /* field unicity check */, 'submit' /* form submit button Id */);
+
+            // Installation de la vérification serveur de l'unicité du titre du favori:
+            // À chaque changement du contrôle Titre une requête AJAX sera envoyée au serveur invoquant
+            // l'action /Bookmarks/CheckNameConflict?Title=valeur du contrôle titre
+            // La réponse indiquera true s'il y a un conflit d'unicité.
+            // Le paramètre 'submit' est le id du bouton de soumission du formulaire. Il est nécessaire pour détecter la soumission de ce dernier.
+            addConflictValidation("/Bookmarks/CheckNameConflict", 'Title' /* field unicity check */, 'submit' /* form submit button Id */);
+
+            // Pour la mise à jour du favicon
             $("#Url").on("change", function () {
                 let favicon = makeFavicon($("#Url").val(), true);
                 $("#favicon").empty();

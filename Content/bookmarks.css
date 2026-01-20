@@ -18,10 +18,11 @@
 .BookmarkLayout {
     display: flex;
     align-items: center;
-    width: 338px;
+    width: 325px;
     gap: var(--gap);
-    font-size: 1.2em;
+    font-size: 1.1em;
     color: black;
+    /*border:0.1px solid gray;*/
 }
 
 .bookmarkFavicon {
