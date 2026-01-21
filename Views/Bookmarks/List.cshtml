@@ -71,10 +71,14 @@
                 if (e.ctrlKey) {
                     if ($(this).parent().attr('open') != undefined) {
                         $('details').removeAttr('open');
+                        $("#toggle-collapse").addClass("fa-square-caret-right");
+                        $("#toggle-collapse").removeClass("fa-square-caret-down");
                         e.preventDefault();
                     }
                     else {
                         $('details').prop('open', true);
+                        $("#toggle-collapse").removeClass("fa-square-caret-right");
+                        $("#toggle-collapse").addClass("fa-square-caret-down");
                         e.preventDefault();
                     }
                 }
