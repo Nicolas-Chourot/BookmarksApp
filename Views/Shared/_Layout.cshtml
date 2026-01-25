@@ -19,13 +19,13 @@
             Html.RenderPartial("_header");
         }
 
-        <div id="contentPanel" class="content">
-            <div id="mainContentPanel" class="main roundedBorder scrollable">
+        <div class="content">
+            <div class="main section scrollable">
                 @RenderBody()
             </div>
         </div>
 
-        <div id="footerPanel" class="section roundedBorder">
+        <div class="section">
             &copy; @DateTime.Now.Year - Gestionnaire de favoris
         </div>
 
@@ -37,7 +37,7 @@
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
     <!-- Insertion des regroupements de scripts -->
-    @Scripts.Render("~/bundles/validation")
+    @Scripts.Render("~/bundles/clientViewScript")
 
     <!-- Insertion de script local aux vues -->
     @RenderSection("scripts", required: false)

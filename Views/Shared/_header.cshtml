@@ -13,7 +13,7 @@
     bool SearchAscending = Session["SortAscending"] != null ? (bool)Session["SortAscending"] : true;
 }
 
-<div class="section roundedBorder">
+<div class="section">
     <div class="headerMenu">
         <a class="siteIcon" href="/Bookmarks/list"></a>
 
@@ -38,7 +38,7 @@
 
                 <div class="pageTitle">Favoris</div>
 
-                <div id="mainMenuPanel" class="menu">
+                <div class="menu">
                     <!-- Create command -->
                     <a href="/@controller/Create" class="cmdIcon fa fa-circle-plus" title="Ajouter..."></a>
 
@@ -63,7 +63,7 @@
                         <i id="toggle-collapse" class="cmdIcon fa-regular fa-square-caret-right" title="Étendre/Réduire les catégories"></i>
                     }
                     <!-- Dropdown menu -->
-                    <div id="menu" class="dropdown ms-auto">
+                    <div class="dropdown ms-auto">
 
                         <!-- Menu acces icon -->
                         <div data-bs-toggle="dropdown" aria-expanded="false">
@@ -112,7 +112,7 @@
             case "details":
                 <div class="pageTitle">Détails</div>
 
-                <div id="mainMenuPanel" class="menu">
+                <div class="menu">
                     <!-- Edit command -->
                     <a href="/@controller/Edit" class="cmdIcon fa fa-pen-to-square" title="Modifier..."></a>
 
@@ -129,7 +129,7 @@
             case "create":
                 <div class="pageTitle">Ajout</div>
 
-                <div id="mainMenuPanel" class="menu">
+                <div class="menu">
                     <!-- Commit command -->
                     <i class="cmdIcon submitCmd fa fa-circle-check" title="Soumettre" onclick="document.getElementById('submit').click()"></i>
 
@@ -140,7 +140,7 @@
             case "edit":
                 <div class="pageTitle">Modification</div>
 
-                <div id="mainMenuPanel" class="menu">
+                <div class="menu">
                     <!-- Commit command -->
                     <i class="cmdIcon submitCmd fa fa-circle-check" title="Soumettre" onclick="document.getElementById('submit').click()"></i>
 
@@ -151,7 +151,7 @@
             case "about":
                 <div class="pageTitle">À propos</div>
 
-                <div id="mainMenuPanel" class="menu">
+                <div class="menu">
                     <!-- Back to list command -->
                     <a href="/@controller/List" class="cmdIcon fa fa-square-xmark" title="Retour"></a>
                 </div>

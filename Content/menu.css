@@ -1,43 +1,51 @@
-.cmdIcon {
-    font-size: 1.5rem;
-    color: rgb(0, 87, 204);
-    margin-right: 8px;
-    cursor: pointer;
-    text-decoration: none;
-
-    &:hover {
-        color: rgb(103, 165, 247);
-    }
-}
-
-.menuIcon {
-    font-size: 1.2rem;
-    text-align: center;
-    color: darkgray;
-}
 
 .headerMenu {
     display: grid;
     grid-template-columns: 3em auto 30px;
     align-items: center;
 
+    .pageTitle {
+        font-size: 2em;
+        text-align: left;
+        font-weight: bold;
+    }
+
+    .cmdIcon {
+        font-size: 1.5rem;
+        color: rgb(0, 87, 204);
+        margin-right: 8px;
+        cursor: pointer;
+        text-decoration: none;
+
+        &:hover {
+            color: rgb(103, 165, 247);
+        }
+    }
+
+    .menuIcon {
+        font-size: 1.2rem;
+        text-align: center;
+        color: darkgray;
+    }
+
     a {
         text-decoration: none;
     }
-}
 
-.pageTitle {
-    font-size: 2em;
-    text-align: left;
-    font-weight: bold;
-}
+    .menu {
+        display: flex;
+        gap: 4px;
+        justify-content: flex-end;
+        align-items: center;
+        font-size: 1.2em;
 
-.menu {
-    display: flex;
-    gap: 4px;
-    justify-content: flex-end;
-    align-items: center;
-    font-size: 1.2em;
+        .item-layout {
+            display: grid !important;
+            grid-template-columns: 38px auto !important;
+            align-items: center;
+            cursor: pointer;
+        }
+    }
 }
 
 .siteIcon {
@@ -48,13 +56,6 @@
     height: 3em;
     aspect-ratio:2/3;
     margin-left:5px;
-}
-
-.item-layout {
-    display: grid !important;
-    grid-template-columns: 38px auto !important;
-    align-items: center;
-    cursor: pointer;
 }
 
 .searchBarLayout {

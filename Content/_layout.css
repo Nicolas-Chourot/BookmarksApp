@@ -18,10 +18,6 @@
     gap: var(--gap);
     padding: var(--gap);
 
-    .pageTitle {
-        font-size: 2.5em;
-    }
-
     .main {
         flex: auto;
     }
@@ -29,11 +25,11 @@
     .content {
         flex: auto;
         display: flex;
-        /* must have for scroll */
+        /* must have for vertical overflow */
         min-height: 0vh;
         gap: var(--gap);
-
-        section {
+        /* For additionnal section */
+        .sideSection {
             display: inline;
             max-width: 20%;
         }
@@ -43,12 +39,11 @@
         overflow-y: auto;
     }
 
-    .roundedBorder {
+    .section {
         border-radius: 6px;
         border: 1px solid lightgray;
         padding: var(--gap);
     }
-
 
     .ellipsis {
         white-space: nowrap;
@@ -56,4 +51,3 @@
         text-overflow: ellipsis;
     }
 }
-
