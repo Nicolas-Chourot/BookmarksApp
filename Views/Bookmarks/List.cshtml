@@ -20,19 +20,19 @@
                     RestoreDetailsState /* post refresh callback  */
                 );
 
-            let keywordsOnchangeTimger = null;
+            let keywordsOnchangeTimer = null;
 
             $("#searchInput").on('keyup', function () {
-                clearTimeout(keywordsOnchangeTimger);
+                clearTimeout(keywordsOnchangeTimer);
                 /* delay request by 0.5 seconds because we dont want to send a request each time there is a keyup event */
-                keywordsOnchangeTimger = setTimeout(() => {
+                keywordsOnchangeTimer = setTimeout(() => {
                     // command to send a get request by the browser
                     window.location = "/Bookmarks/SetSearchString?value=" + $("#searchInput").val();
                 }, 500 /* 0.5 seconds */);
             });
 
             $("#searchInput").on('search', function () { /* click on clear */
-                clearTimeout(keywordsOnchangeTimger);
+                clearTimeout(keywordsOnchangeTimer);
                 window.location = "/Bookmarks/SetSearchString?value=" + $("#searchInput").val();
             });
 
